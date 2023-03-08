@@ -66,9 +66,9 @@ import { spring } from 'svelte/motion';
         achievements = achievements.filter(x => x !== achievement.trim());
     }
 
-    let awards: {person:string, achievement: string}[] = [];
-    let award = function(person: string, achievement: string) {
-        awards = [...awards, {person: person, achievement: achievement}];
+    let awards: {person:string, achievement: string, value: string}[] = [];
+    let award = function(person: string, achievement: string, value: string) {
+        awards = [...awards, {person: person, achievement: achievement, value: value}];
     }
 
     let gotoPage = function(index: number) {
@@ -266,33 +266,57 @@ import { spring } from 'svelte/motion';
 {/if}
 
 {#if page === 3}
-    <h1 class="text-base font-semibold leading-6 text-gray-900">Step 3: Award contributors</h1>
+    
 
-    <table>
-        <tr>
-            <td></td>
-            {#each people as person}
-                <td>{person}</td>
-            {/each}
-        </tr>
+    {#each achievements as achievement}
 
-        {#each achievements as achievement}
-            <tr>
-                <td>
-                    {achievement}
-                </td>
-                {#each people as person}
-                    <td>
-                        {#if awards.filter(x => x.person === person && x.achievement === achievement).length == 0}
-                            <button on:click={() => award(person, achievement)}>Award</button>
-                        {:else}
-                            Awarded
-                        {/if}
-                    </td>
-                {/each}
-            </tr>
-        {/each}
-    </table>
+    <div class="px-4 sm:px-6 lg:px-8 mb-12">
+        <div class="sm:flex sm:items-center">
+          <div class="sm:flex-auto">
+            <h1 class="text-base font-semibold leading-6 text-gray-900">{achievement}</h1>
+          </div>
+        </div>
+        <div class="mt-8 flow-root">
+          <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <table class="min-w-full divide-y divide-gray-300">
+                <thead>
+                  <tr>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"></th>
+                    {#each people as person}
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">{person}</th>
+                    {/each}
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {#each values as value}
+
+                    <tr>
+                        <td title={value.description}>
+                            {value.name}
+                        </td>
+                        {#each people as person}
+                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                                {#if awards.filter(x => x.person === person && x.achievement === achievement && x.value === value.name).length == 0}
+                                    <button on:click={() => award(person, achievement, value.name)}>Award</button>
+                                {:else}
+                                    Awarded
+                                {/if}
+                            </td>
+                        {/each}
+    
+                  {/each}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    {/each}
+
 
     <p>
         {#if awards.length > 0}
@@ -320,18 +344,18 @@ import { spring } from 'svelte/motion';
               <table class="min-w-full divide-y divide-gray-300">
                 <thead>
                   <tr>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Achievement</th>
-                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Values</th>
-                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">contributor</th>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Who</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">What</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">How</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     {#each awards as award}
 
                   <tr>
-                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{award.achievement}</td>
-                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">Front-end Developer</td>
-                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{award.person}</td>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{award.person}</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{award.achievement}</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{award.value}</td>
                   </tr>
                   {/each}
 
