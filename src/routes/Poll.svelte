@@ -13,11 +13,21 @@ import { spring } from 'svelte/motion';
 	// 	return ((n % m) + m) % m;
 	// }
 
-    let page: number = 1;
+    let page: number = 0;
 
-    let newPerson = "";
     // let people : string[] = ["Bob", "Farzal", "Florian", "Mariia"];
     let people : string[] = [];
+
+    let firstPerson = "";
+    let addFirstPerson = function() {
+    if(firstPerson.trim().length > 0) {
+        people = [...people, firstPerson.trim()]; 
+
+        page = 1;
+    }
+}
+
+    let newPerson = "";
     let addPerson = function() {
         if(newPerson.trim().length > 0) {
             people = [...people, newPerson.trim()]; 
@@ -42,23 +52,44 @@ import { spring } from 'svelte/motion';
 
     let reset = function() {
 
+        firstPerson = ""
         people = [];
         achievements = [];
         awards = [];
 
-        page = 1
+        page = 0;
     }
 
 </script>
 
 
 
-{#if page === 1}
-
-    <h1>Step 1: Add people</h1>
+{#if page === 0}
+    <h1>What is your name?</h1>
     <div>
         <div>
-            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+            <div class="mt-2">
+              <input bind:value={firstPerson} 
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+            <div class="mt-2">
+
+            <button  on:click={() => addFirstPerson() }
+                type="button" 
+                class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                
+                Add</button>
+              </div>
+              </div>
+
+    </div>
+{/if}
+
+{#if page === 1}
+
+    <h1>Hi {firstPerson}! Who is on your team?</h1>
+    <div>
+        <div>
             <div class="mt-2">
               <input bind:value={newPerson} 
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -75,8 +106,10 @@ import { spring } from 'svelte/motion';
 
     </div>
 
-    {#each people as person}
-        <p>{person}</p>
+    {#each people as person, i}
+        {#if i > 0}
+            <p>{person}</p>
+        {/if}
     {/each}
 
     <p>
@@ -169,10 +202,11 @@ import { spring } from 'svelte/motion';
 
 {/if}
 
+{#if page > 0}
  <p>
     <button on:click={() => reset()}>Reset</button>
  </p>
-
+{/if}
 
 <!-- 
 
