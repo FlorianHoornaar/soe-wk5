@@ -15,10 +15,11 @@ import { spring } from 'svelte/motion';
 
     let page: number = 0;
 
-    // let people : string[] = ["Bob", "Farzal", "Florian", "Mariia"];
-    let people : string[] = [];
+    let people : string[] = ["Farzal", "Florian", "Mariia"];
+    // let people : string[] = [];
 
-    let firstPerson = "";
+    let firstPerson = "Bob";
+    // let firstPerson = "";
     let addFirstPerson = function() {
     if(firstPerson.trim().length > 0) {
         people = [...people, firstPerson.trim()]; 
@@ -53,8 +54,8 @@ import { spring } from 'svelte/motion';
     ];
 
     let newAchievement = "";
-    // let achievements: string[] = ["Build an MVP in only 6 days"];
-    let achievements: string[] = [];
+    let achievements: string[] = ["Build an MVP in only 6 days", "Break even"];
+    //let achievements: string[] = [];
     let addAchievement = function() {
         if(newAchievement.trim().length > 0) {
             achievements = [...achievements, newAchievement.trim()]; 
@@ -70,22 +71,102 @@ import { spring } from 'svelte/motion';
         awards = [...awards, {person: person, achievement: achievement}];
     }
 
-    let reset = function() {
+    let gotoPage = function(index: number) {
 
-        firstPerson = ""
-        people = [];
-        achievements = [];
-        awards = [];
+        if (index === 0 ) {
 
-        page = 0;
+            if (window.confirm("Are you sure you want to start over again?")) {
+                firstPerson = ""
+            people = [];
+            achievements = [];
+            awards = [];
+
+            page = 0;
+            }
+
+
+        } else {
+            page = index;
+        }
     }
 
 </script>
 
 
+<nav class="flex mb-10" aria-label="Breadcrumb">
+    <ol role="list" class="flex items-center space-x-4">
+      <li>
+        <div>
+          <a href="#" on:click={() => gotoPage(0) } class="text-gray-400 hover:text-gray-500">
+            <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only">Home</span>
+          </a>
+        </div>
+      </li>
+  
+      <li>
+        <div class="flex items-center">
+          <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+          </svg>
+
+          {#if page >= 1}
+          <a href="#" on:click={() => gotoPage(1) } class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Team</a>
+      {:else}
+              <span class="ml-4 text-sm font-medium text-gray-300" aria-current="page">Team</span>
+      {/if}
+
+        </div>
+      </li>
+  
+      <li>
+        <div class="flex items-center">
+          <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+          </svg>
+          {#if page >= 2}
+                <a href="#" on:click={() => gotoPage(2) } class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Achievements</a>
+            {:else}
+                    <span class="ml-4 text-sm font-medium text-gray-300" aria-current="page">Achievements</span>
+            {/if}
+
+        </div>
+      </li>
+  
+      <li>
+        <div class="flex items-center">
+          <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+          </svg>
+          {#if page >= 3}
+              <a href="#" on:click={() => gotoPage(3) } class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Contributors</a>
+          {:else}
+                <span class="ml-4 text-sm font-medium text-gray-300" aria-current="page">Contributors</span>
+          {/if}
+        </div>
+      </li>
+  
+      <li>
+        <div class="flex items-center">
+          <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+          </svg>
+          {#if page >= 4}
+                <a href="#" on:click={() => gotoPage(4) } class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Report</a>
+            {:else}
+                    <span class="ml-4 text-sm font-medium text-gray-300" aria-current="page">Report</span>
+            {/if}
+        </div>
+      </li>
+    </ol>
+  </nav>
+  
+  
 
 {#if page === 0}
-    <h1>What is your name?</h1>
+    <h1 class="text-base font-semibold leading-6 text-gray-900">What is your name?</h1>
     <div>
         <div>
             <div class="mt-2">
@@ -107,7 +188,7 @@ import { spring } from 'svelte/motion';
 
 {#if page === 1}
 
-    <h1>Hi {firstPerson}! Who else is on your team?</h1>
+    <h1 class="text-base font-semibold leading-6 text-gray-900">Hi {firstPerson}! Who else is on your team?</h1>
     <div>
         <div>
             <div class="mt-2">
@@ -147,7 +228,7 @@ import { spring } from 'svelte/motion';
 
 {#if page === 2}
 
-    <h1>What achievements are y'all proud of?</h1>
+    <h1 class="text-base font-semibold leading-6 text-gray-900">What achievements are y'all proud of?</h1>
     <div>
         <div>
             <div class="mt-2">
@@ -162,7 +243,7 @@ import { spring } from 'svelte/motion';
                 
                 Add</button>
 
-                {#if achievements.length > 1}
+                {#if achievements.length > 0}
                 <button on:click={() => page = 3}
                     type="button" 
                     class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
@@ -185,7 +266,7 @@ import { spring } from 'svelte/motion';
 {/if}
 
 {#if page === 3}
-    <h1>Step 3: Award contributors</h1>
+    <h1 class="text-base font-semibold leading-6 text-gray-900">Step 3: Award contributors</h1>
 
     <table>
         <tr>
@@ -214,42 +295,57 @@ import { spring } from 'svelte/motion';
     </table>
 
     <p>
-        <button on:click={() => page = 2}>Previous</button>
         {#if awards.length > 0}
-            <button on:click={() => page = 4}>Next</button>
+        <button on:click={() => gotoPage(4)}
+            type="button" 
+            class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Next</button>
         {/if}
     </p>
 
 {/if}
 
 {#if page === 4}
-    <h1>Step 4: Report</h1>
+    <h1 class="text-base font-semibold leading-6 text-gray-900">Here you go!</h1>
 
-    <table>
-        <tr>
-            <td>achievement</td>
-            <td>contributor</td>
-        </tr>
+    <div class="px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+          <div class="sm:flex-auto">
+            <p class="mt-2 text-sm text-gray-700">Look at you beautiful people. You can be proud of your achievements.</p>
+          </div>
+        </div>
+        <div class="mt-8 flow-root">
+          <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <table class="min-w-full divide-y divide-gray-300">
+                <thead>
+                  <tr>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Achievement</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Values</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">contributor</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {#each awards as award}
 
-        {#each awards as award}
-            <tr>
-                <td>{award.achievement}</td>
-                <td>{award.person}</td>
-            </tr>
-        {/each}
-    
-    </table>
+                  <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{award.achievement}</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">Front-end Developer</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{award.person}</td>
+                  </tr>
+                  {/each}
 
-    <p>
-        <button on:click={() => page = 3}>Previous</button>
-    </p>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
 
-{/if}
-
-{#if page > 1}
- <p>
-    <button on:click={() => reset()}>Reset</button>
- </p>
+      <button on:click={() => gotoPage(0)}
+        type="button" 
+        class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        Start again</button>
 {/if}
 
 <!-- 

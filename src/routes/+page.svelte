@@ -1,6 +1,5 @@
 <script>
 	import Poll from './Poll.svelte';
-	import Counter from './Counter.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 </script>
@@ -22,21 +21,13 @@
 	</h1>
 
 	<Poll />
-	<!-- <Counter /> -->
+
 </section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
+	
 
-	h1 {
-		width: 100%;
-	}
+	
 
 	.welcome {
 		display: block;
