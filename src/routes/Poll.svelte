@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { identity } from 'svelte/internal';
+import { identity } from 'svelte/internal';
 import { spring } from 'svelte/motion';
 
 	// let count = 0;
@@ -38,10 +38,19 @@ import { spring } from 'svelte/motion';
     }
 
     let removePerson = function(person: string) {
-        if (person !== firstPerson) {
-            people = people.filter(x => x !== person);
+        if (person.trim() !== firstPerson.trim()) {
+            people = people.filter(x => x !== person.trim());
         }
     }
+
+    let values : {name: string, description: string}[] = [
+        { name: "Empathy", description: "Listen actively and respect others' opinions and perspectives." },
+        { name: "Empowerment", description: "Take initiative and propose new ideas to improve processes or solve problems." },
+        { name: "Innovation", description: "Look for new and better ways to do things, and don't be afraid to experiment." },
+        { name: "Inclusion", description: "Create a diverse and inclusive workplace where everyone feels welcome and respected." },
+        { name: "Customer focus", description: "Use customer feedback to inform decisions and improve processes." },
+        { name: "Growth Mindset", description: "Seek out new opportunities for learning and development, both within and outside the organization." }
+    ];
 
     let newAchievement = "";
     // let achievements: string[] = ["Build an MVP in only 6 days"];
@@ -51,6 +60,9 @@ import { spring } from 'svelte/motion';
             achievements = [...achievements, newAchievement.trim()]; 
             newAchievement = ""
         }
+    }
+    let removeAchievement = function(achievement:string) {
+        achievements = achievements.filter(x => x !== achievement.trim());
     }
 
     let awards: {person:string, achievement: string}[] = [];
@@ -122,35 +134,54 @@ import { spring } from 'svelte/motion';
     </div>
 
     <div class="mt-5">
-    {#each people as person, i}
-        <button 
-            on:click={() => removePerson(person)}
-            type="button" 
-            class="mr-2 rounded bg-white py-1 px-2 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-            {person}</button>
-    {/each}
-</div>
+        {#each people as person, i}
+            <button 
+                on:click={() => removePerson(person)}
+                type="button" 
+                class="mr-2 rounded bg-white py-1 px-2 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                {person}</button>
+        {/each}
+    </div>
 {/if}
 
 
 {#if page === 2}
 
-    <h1>Step 2: Add achievements</h1>
+    <h1>What achievements are y'all proud of?</h1>
     <div>
-        <input bind:value={newAchievement}>
-        <button on:click={() => addAchievement() }>Add</button>  
+        <div>
+            <div class="mt-2">
+            <input bind:value={newAchievement} 
+                class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+            <div class="mt-2">
+
+            <button on:click={() => addAchievement() }
+                type="button" 
+                class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                
+                Add</button>
+
+                {#if achievements.length > 1}
+                <button on:click={() => page = 3}
+                    type="button" 
+                    class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Next</button>
+                    {/if}
+            </div>
+            </div>
+
     </div>
 
-    {#each achievements as achievement}
-        <p>{achievement}</p>
-    {/each}
-
-    <p>
-        <button on:click={() => page = 1}>Previous</button>
-        {#if achievements.length > 0}
-            <button on:click={() => page = 3}>Next</button>
-        {/if}
-    </p>
+    <div class="mt-5">
+        {#each achievements as achievement, i}
+            <button 
+                on:click={() => removeAchievement(achievement)}
+                type="button" 
+                class="mr-2 rounded bg-white py-1 px-2 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                {achievement}</button>
+        {/each}
+    </div>
 {/if}
 
 {#if page === 3}
