@@ -15,8 +15,8 @@ import { spring } from 'svelte/motion';
 
     let page: number = 0;
 
-    // let people : string[] = ["Bob", "Farzal", "Florian", "Mariia"];
-    let people : string[] = [];
+    let people : string[] = ["Bob", "Farzal", "Florian", "Mariia"];
+    // let people : string[] = [];
 
     let firstPerson = "";
     let addFirstPerson = function() {
@@ -30,8 +30,16 @@ import { spring } from 'svelte/motion';
     let newPerson = "";
     let addPerson = function() {
         if(newPerson.trim().length > 0) {
-            people = [...people, newPerson.trim()]; 
+            if (people.includes(newPerson.trim()) === false) {
+                people = [...people, newPerson.trim()]; 
+            }
             newPerson = ""
+        }
+    }
+
+    let removePerson = function(person: string) {
+        if (person !== firstPerson) {
+            people = people.filter(x => x !== person);
         }
     }
 
@@ -70,7 +78,7 @@ import { spring } from 'svelte/motion';
         <div>
             <div class="mt-2">
               <input bind:value={firstPerson} 
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
             <div class="mt-2">
 
@@ -78,7 +86,7 @@ import { spring } from 'svelte/motion';
                 type="button" 
                 class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 
-                Add</button>
+                Let's go!</button>
               </div>
               </div>
 
@@ -87,7 +95,7 @@ import { spring } from 'svelte/motion';
 
 {#if page === 1}
 
-    <h1>Hi {firstPerson}! Who is on your team?</h1>
+    <h1>Hi {firstPerson}! Who else is on your team?</h1>
     <div>
         <div>
             <div class="mt-2">
@@ -96,27 +104,32 @@ import { spring } from 'svelte/motion';
             </div>
             <div class="mt-2">
 
-            <button  on:click={() => addPerson() }
+            <button on:click={() => addPerson() }
                 type="button" 
                 class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 
                 Add</button>
+
+                {#if people.length > 1}
+                <button on:click={() => page = 2}
+                    type="button" 
+                    class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Next</button>
+                    {/if}
               </div>
               </div>
 
     </div>
 
+    <div class="mt-5">
     {#each people as person, i}
-        {#if i > 0}
-            <p>{person}</p>
-        {/if}
+        <button 
+            on:click={() => removePerson(person)}
+            type="button" 
+            class="mr-2 rounded bg-white py-1 px-2 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            {person}</button>
     {/each}
-
-    <p>
-        {#if people.length > 1}
-            <button on:click={() => page = 2}>Next</button>
-        {/if}
-    </p>
+</div>
 {/if}
 
 
@@ -202,7 +215,7 @@ import { spring } from 'svelte/motion';
 
 {/if}
 
-{#if page > 0}
+{#if page > 1}
  <p>
     <button on:click={() => reset()}>Reset</button>
  </p>

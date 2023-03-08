@@ -13,11 +13,10 @@
 	</main>
 
 	<footer>
-		<p>Hello, Team!</p>
 	</footer>
 </div>
 
-<style>
+<!-- <style>
 	.app {
 		display: flex;
 		flex-direction: column;
@@ -52,4 +51,4 @@
 			padding: 12px 0;
 		}
 	}
-</style>
+</style> -->
