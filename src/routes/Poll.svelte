@@ -40,14 +40,39 @@ import { spring } from 'svelte/motion';
         awards = [...awards, {person: person, achievement: achievement}];
     }
 
+    let reset = function() {
+
+        people = [];
+        achievements = [];
+        awards = [];
+
+        page = 1
+    }
+
 </script>
+
+
 
 {#if page === 1}
 
     <h1>Step 1: Add people</h1>
     <div>
-        <input bind:value={newPerson}>
-        <button on:click={() => addPerson() }>Add</button>  
+        <div>
+            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+            <div class="mt-2">
+              <input bind:value={newPerson} 
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+            <div class="mt-2">
+
+            <button  on:click={() => addPerson() }
+                type="button" 
+                class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                
+                Add</button>
+              </div>
+              </div>
+
     </div>
 
     {#each people as person}
@@ -137,7 +162,16 @@ import { spring } from 'svelte/motion';
         {/each}
     
     </table>
+
+    <p>
+        <button on:click={() => page = 3}>Previous</button>
+    </p>
+
 {/if}
+
+ <p>
+    <button on:click={() => reset()}>Reset</button>
+ </p>
 
 
 <!-- 
