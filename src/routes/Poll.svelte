@@ -2,16 +2,18 @@
 	import { identity } from 'svelte/internal';
 import { spring } from 'svelte/motion';
 
-	let count = 0;
+	// let count = 0;
 
-	const displayed_count = spring();
-	$: displayed_count.set(count);
-	$: offset = modulo($displayed_count, 1);
+	// const displayed_count = spring();
+	// $: displayed_count.set(count);
+	// $: offset = modulo($displayed_count, 1);
 
-	function modulo(n: number, m: number) {
-		// handle negative numbers
-		return ((n % m) + m) % m;
-	}
+	// function modulo(n: number, m: number) {
+	// 	// handle negative numbers
+	// 	return ((n % m) + m) % m;
+	// }
+
+    let page: number = 1;
 
     let newPerson = "";
     // let people : string[] = ["Bob", "Farzal", "Florian", "Mariia"];
@@ -40,18 +42,28 @@ import { spring } from 'svelte/motion';
 
 </script>
 
-<h1>Step 1: Add people</h1>
-<div>
-    <input bind:value={newPerson}>
-    <button on:click={() => addPerson() }>Add</button>  
-</div>
+{#if page === 1}
 
-{#each people as person}
-    <p>{person}</p>
-{/each}
+    <h1>Step 1: Add people</h1>
+    <div>
+        <input bind:value={newPerson}>
+        <button on:click={() => addPerson() }>Add</button>  
+    </div>
+
+    {#each people as person}
+        <p>{person}</p>
+    {/each}
+
+    <p>
+        {#if people.length > 1}
+            <button on:click={() => page = 2}>Next</button>
+        {/if}
+    </p>
+{/if}
 
 
-{#if people.length > 1}
+{#if page === 2}
+
     <h1>Step 2: Add achievements</h1>
     <div>
         <input bind:value={newAchievement}>
@@ -61,9 +73,16 @@ import { spring } from 'svelte/motion';
     {#each achievements as achievement}
         <p>{achievement}</p>
     {/each}
+
+    <p>
+        <button on:click={() => page = 1}>Previous</button>
+        {#if achievements.length > 0}
+            <button on:click={() => page = 3}>Next</button>
+        {/if}
+    </p>
 {/if}
 
-{#if achievements.length > 0}
+{#if page === 3}
     <h1>Step 3: Award contributors</h1>
 
     <table>
@@ -92,7 +111,32 @@ import { spring } from 'svelte/motion';
         {/each}
     </table>
 
+    <p>
+        <button on:click={() => page = 2}>Previous</button>
+        {#if awards.length > 0}
+            <button on:click={() => page = 4}>Next</button>
+        {/if}
+    </p>
 
+{/if}
+
+{#if page === 4}
+    <h1>Step 4: Report</h1>
+
+    <table>
+        <tr>
+            <td>achievement</td>
+            <td>contributor</td>
+        </tr>
+
+        {#each awards as award}
+            <tr>
+                <td>{award.achievement}</td>
+                <td>{award.person}</td>
+            </tr>
+        {/each}
+    
+    </table>
 {/if}
 
 
