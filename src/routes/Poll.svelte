@@ -6,7 +6,7 @@ let people: string[] = ["Farzal", "Florian", "Mariia"];
 
 let firstPerson = "Bob";
 // let firstPerson = "";
-let addFirstPerson = function() {
+let addFirstPerson = () => {
     if (firstPerson.trim().length > 0) {
         people = [...people, firstPerson.trim()];
 
@@ -15,7 +15,7 @@ let addFirstPerson = function() {
 }
 
 let newPerson = "";
-let addPerson = function() {
+let addPerson = () => {
     if (newPerson.trim().length > 0) {
         if (people.includes(newPerson.trim()) === false) {
             people = [...people, newPerson.trim()];
@@ -24,7 +24,7 @@ let addPerson = function() {
     }
 }
 
-let removePerson = function(person: string) {
+let removePerson = (person: string) => {
     if (person.trim() !== firstPerson.trim()) {
         people = people.filter(x => x !== person.trim());
     }
@@ -62,13 +62,13 @@ let values: {
 let newAchievement = "";
 let achievements: string[] = ["Build an MVP in only 6 days", "Break even"];
 //let achievements: string[] = [];
-let addAchievement = function() {
+let addAchievement = () => {
     if (newAchievement.trim().length > 0) {
         achievements = [...achievements, newAchievement.trim()];
         newAchievement = ""
     }
 }
-let removeAchievement = function(achievement: string) {
+let removeAchievement = (achievement: string) => {
     achievements = achievements.filter(x => x !== achievement.trim());
 }
 
@@ -77,7 +77,7 @@ let awards: {
     achievement: string,
     value: string
 } [] = [];
-let award = function(person: string, achievement: string, value: string) {
+let award = (person: string, achievement: string, value: string) => {
     awards = [...awards, {
         person: person,
         achievement: achievement,
@@ -85,7 +85,7 @@ let award = function(person: string, achievement: string, value: string) {
     }];
 }
 
-let gotoPage = function(index: number) {
+let gotoPage = (index: number) => {
 
     if (index === 0) {
 
