@@ -83,12 +83,16 @@ let awards: {
     achievement: string,
     value: string
 } [] = [];
-let award = (person: string, achievement: string, value: string) => {
-    awards = [...awards, {
-        person: person,
-        achievement: achievement,
-        value: value
-    }];
+let toggleAward = (person: string, achievement: string, value: string) => {
+    if (awards.filter(x => x.person === person && x.achievement === achievement && x.value === value).length === 0) {
+        awards = [...awards, {
+            person: person,
+            achievement: achievement,
+            value: value
+        }];
+    } else {
+        awards = awards.filter(x => x.person !== person && x.achievement !== achievement && x.value !== value);
+    }
 }
 
 let gotoPage = (index: number) => {
@@ -253,8 +257,8 @@ let gotoPage = (index: number) => {
         <div class="mt-2">
             <input
                 on:keypress={(e) => doOnEnter(e, addAchievement)}
-                bind:value={newAchievement}
-                class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            bind:value={newAchievement}
+            class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
         <div class="mt-2">
 
@@ -302,7 +306,7 @@ let gotoPage = (index: number) => {
                 <table class="min-w-full divide-y divide-gray-300">
                     <thead>
                         <tr>
-                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"></th>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900"></th>
                             {#each people as person}
                             <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">{person}</th>
                             {/each}
@@ -312,80 +316,87 @@ let gotoPage = (index: number) => {
                         {#each values as value}
 
                         <tr>
-                            <td title={value.description}>
+                            <td>
                                 {value.name}
+                                <p class="text-xs w-56">{value.description}</p>
                             </td>
                             {#each people as person}
-                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                            <td
+                                on:click={() => toggleAward(person, achievement, value.name)}
+                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">
                                 {#if awards.filter(x => x.person === person && x.achievement === achievement && x.value === value.name).length == 0}
-                                <button on:click={() => award(person, achievement, value.name)}>Award</button>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                                    </svg>
                                 {:else}
-                                Awarded
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                                </svg>
                                 {/if}
                             </td>
                             {/each}
+                        </tr>
 
-                            {/each}
+                        {/each}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            </tbody>
-                            </table>
-                            </div>
-                            </div>
-                            </div>
-                            </div>
+{/each}
 
-                            {/each}
+<p>
+    {#if awards.length > 0}
+    <button on:click={() => gotoPage(4)}
+        type="button"
+        class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        Next</button>
+    {/if}
+</p>
 
-                            <p>
-                                {#if awards.length > 0}
-                                <button on:click={() => gotoPage(4)}
-                                    type="button"
-                                    class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    Next</button>
-                                {/if}
-                            </p>
+{/if}
 
-                            {/if}
+{#if page === 4}
+<h1 class="text-base font-semibold leading-6 text-gray-900">Here you go!</h1>
 
-                            {#if page === 4}
-                            <h1 class="text-base font-semibold leading-6 text-gray-900">Here you go!</h1>
+<div class="px-4 sm:px-6 lg:px-8">
+    <div class="sm:flex sm:items-center">
+        <div class="sm:flex-auto">
+            <p class="mt-2 text-sm text-gray-700">Look at you beautiful people. You can be proud of your achievements.</p>
+        </div>
+    </div>
+    <div class="mt-8 flow-root">
+        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <table class="min-w-full divide-y divide-gray-300">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Who</th>
+                            <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">What</th>
+                            <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">How</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {#each awards as award}
 
-                            <div class="px-4 sm:px-6 lg:px-8">
-                                <div class="sm:flex sm:items-center">
-                                    <div class="sm:flex-auto">
-                                        <p class="mt-2 text-sm text-gray-700">Look at you beautiful people. You can be proud of your achievements.</p>
-                                    </div>
-                                </div>
-                                <div class="mt-8 flow-root">
-                                    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                                            <table class="min-w-full divide-y divide-gray-300">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Who</th>
-                                                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">What</th>
-                                                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">How</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="divide-y divide-gray-200">
-                                                    {#each awards as award}
+                        <tr>
+                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{award.person}</td>
+                            <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{award.achievement}</td>
+                            <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{award.value}</td>
+                        </tr>
+                        {/each}
 
-                                                    <tr>
-                                                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{award.person}</td>
-                                                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{award.achievement}</td>
-                                                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{award.value}</td>
-                                                    </tr>
-                                                    {/each}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button on:click={() => gotoPage(0)}
-                                type="button"
-                                class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                Start again</button>
-                            {/if}
+<button on:click={() => gotoPage(0)}
+    type="button"
+    class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+    Start again</button>
+{/if}
