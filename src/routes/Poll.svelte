@@ -292,9 +292,11 @@ let gotoPage = (index: number) => {
 
 {#if page === 3}
 
+<h1  class="mb-10 text-base font-semibold leading-6 text-gray-900">For each achievement, which company values were exemplified?</h1>
+
 {#each achievements as achievement}
 
-<div class="px-4 sm:px-6 lg:px-8 mb-12">
+<div class="mb-12">
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
             <h1 class="text-base font-semibold leading-6 text-gray-900">{achievement}</h1>
@@ -361,7 +363,7 @@ let gotoPage = (index: number) => {
 {#if page === 4}
 <h1 class="text-base font-semibold leading-6 text-gray-900">Here you go!</h1>
 
-<div class="px-4 sm:px-6 lg:px-8">
+<div class="">
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
             <p class="mt-2 text-sm text-gray-700">Look at you beautiful people. You can be proud of your achievements.</p>
