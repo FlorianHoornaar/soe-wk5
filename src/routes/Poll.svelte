@@ -1,6 +1,12 @@
 <script lang="ts">
 let page: number = 0;
 
+let doOnEnter = (e: any, f: () => any) => {
+    if (e.key === 'Enter') {
+        f();
+    }
+}
+
 let people: string[] = ["Farzal", "Florian", "Mariia"];
 // let people : string[] = [];
 
@@ -180,8 +186,9 @@ let gotoPage = (index: number) => {
     <div>
         <div class="mt-2">
             <input
-                bind:value={firstPerson}
-                class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                on:keypress={(e) => doOnEnter(e, addFirstPerson)}
+            bind:value={firstPerson}
+            class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
         <div class="mt-2">
             {#if firstPerson.length > 0}
@@ -202,8 +209,11 @@ let gotoPage = (index: number) => {
 <div>
     <div>
         <div class="mt-2">
-            <input bind:value={newPerson}
-                class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <input
+                on:keypress={(e) => doOnEnter(e, addPerson)}
+
+            bind:value={newPerson}
+            class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
         <div class="mt-2">
 
@@ -241,7 +251,9 @@ let gotoPage = (index: number) => {
 <div>
     <div>
         <div class="mt-2">
-            <input bind:value={newAchievement}
+            <input
+                on:keypress={(e) => doOnEnter(e, addAchievement)}
+                bind:value={newAchievement}
                 class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
         <div class="mt-2">
