@@ -306,7 +306,7 @@ let gotoPage = (index: number, areYouSure = false) => {
 
 {#if page === 3}
 
-<h1  class="mb-4 text-xl font-semibold leading-6 text-gray-900">Celebrate your teammates!</h1>
+<h1  class="mb-4 text-xl font-semibold leading-6 text-gray-900">Celebrate your teammates by giving them a high five!</h1>
 
 <p class="mb-10 mt-2 text-sm text-gray-700">For each achievement, which company values were exemplified? And by whom?</p>
 
