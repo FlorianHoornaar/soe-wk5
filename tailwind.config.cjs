@@ -8,6 +8,10 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      colors: {
+        rewardrealm: '#3e6fac',
+        rewardrealmH: '#5e8fcc',
+      },
     },
   },
   plugins: [],

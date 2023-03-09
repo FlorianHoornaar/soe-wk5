@@ -1,5 +1,6 @@
 <script lang="ts">
 let page: number = 0;
+let showPopup = false;
 
 let doOnEnter = (e: any, f: () => any) => {
     if (e.key === 'Enter') {
@@ -84,28 +85,34 @@ let awards: {
     value: string
 } [] = [];
 let toggleAward = (person: string, achievement: string, value: string) => {
+    // Check if the award is already in the array.
     if (awards.filter(x => x.person === person && x.achievement === achievement && x.value === value).length === 0) {
+        // If not, then add.
         awards = [...awards, {
             person: person,
             achievement: achievement,
             value: value
         }];
     } else {
-        awards = awards.filter(x => x.person !== person && x.achievement !== achievement && x.value !== value);
+        // If so, remove.
+        awards = awards.filter(x => x.person !== person || x.achievement !== achievement || x.value !== value);
     }
 }
 
-let gotoPage = (index: number) => {
+let gotoPage = (index: number, areYouSure = false) => {
+
+    showPopup = false;
 
     if (index === 0) {
-
-        if (window.confirm("Are you sure you want to start over again?")) {
+        if (areYouSure) {
             firstPerson = ""
             people = [];
             achievements = [];
             awards = [];
 
             page = 0;
+        } else {
+            showPopup = true;
         }
 
     } else {
@@ -119,7 +126,7 @@ let gotoPage = (index: number) => {
         <li>
             <div>
                 <a href="#" on:click={() => gotoPage(0) } class="text-gray-400 hover:text-gray-500">
-                    <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="#3e6fac" aria-hidden="true">
                         <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
                     </svg>
                     <span class="sr-only">Home</span>
@@ -198,7 +205,7 @@ let gotoPage = (index: number) => {
             {#if firstPerson.length > 0}
             <button on:click={() => addFirstPerson() }
                 type="button"
-                class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                class="rounded bg-rewardrealm py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-rewardrealmH focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
 
                 Let's go!</button>
             {/if}
@@ -223,14 +230,14 @@ let gotoPage = (index: number) => {
 
             <button on:click={() => addPerson() }
                 type="button"
-                class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                class="rounded bg-rewardrealm py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-rewardrealmH focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
 
                 Add</button>
 
             {#if people.length > 1}
             <button on:click={() => page = 2}
                 type="button"
-                class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                class="rounded bg-rewardrealm py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-rewardrealmH focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 Next</button>
             {/if}
         </div>
@@ -264,14 +271,14 @@ let gotoPage = (index: number) => {
 
             <button on:click={() => addAchievement() }
                 type="button"
-                class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                class="rounded bg-rewardrealm py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-rewardrealmH focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
 
                 Add</button>
 
             {#if achievements.length > 0}
             <button on:click={() => page = 3}
                 type="button"
-                class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                class="rounded bg-rewardrealm py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-rewardrealmH focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 Next</button>
             {/if}
         </div>
@@ -329,11 +336,11 @@ let gotoPage = (index: number) => {
                                 on:click={() => toggleAward(person, achievement, value.name)}
                                 class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">
                                 {#if awards.filter(x => x.person === person && x.achievement === achievement && x.value === value.name).length == 0}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#5e8fcc" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                                     </svg>
                                 {:else}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#5e8fcc" viewBox="0 0 24 24" stroke-width="1.5" stroke="#3e6fac" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                                 </svg>
                                 {/if}
@@ -355,7 +362,7 @@ let gotoPage = (index: number) => {
     {#if awards.length > 0}
     <button on:click={() => gotoPage(4)}
         type="button"
-        class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        class="rounded bg-rewardrealm py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-rewardrealmH focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
         Next</button>
     {/if}
 </p>
@@ -401,6 +408,63 @@ let gotoPage = (index: number) => {
 
 <button on:click={() => gotoPage(0)}
     type="button"
-    class="rounded bg-indigo-600 py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+    class="rounded bg-rewardrealm py-1 px-2 text-sm font-semibold text-white shadow-sm hover:bg-rewardrealmH focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
     Start again</button>
 {/if}
+
+
+{#if showPopup}
+
+<div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <!--
+      Background backdrop, show/hide based on modal state.
+  
+      Entering: "ease-out duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <!--
+          Modal panel, show/hide based on modal state.
+  
+          Entering: "ease-out duration-300"
+            From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            To: "opacity-100 translate-y-0 sm:scale-100"
+          Leaving: "ease-in duration-200"
+            From: "opacity-100 translate-y-0 sm:scale-100"
+            To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        -->
+        <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+          <div>
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+              <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+            </div>
+            <div class="mt-3 text-center sm:mt-5">
+              <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Are you sure?</h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">Starting over again will clear your team, achievements and contributors.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-5 sm:mt-6 text-center">
+            <button 
+                on:click={() => gotoPage(0, true)}
+                type="button" class="inline-flex justify-center rounded-md bg-rewardrealm px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rewardrealmH focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Start over</button>
+            <button 
+                on:click={() => showPopup = false }
+                type="button" class="inline-flex justify-center rounded-md bg-rewardrealm px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rewardrealmH focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Go back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {/if}
