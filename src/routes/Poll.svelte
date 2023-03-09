@@ -185,7 +185,7 @@ let gotoPage = (index: number) => {
 </nav>
 
 {#if page === 0}
-<h1 class="text-base font-semibold leading-6 text-gray-900">What is your name?</h1>
+<h1 class="text-xl font-semibold leading-6 text-gray-900">What is your name?</h1>
 <div>
     <div>
         <div class="mt-2">
@@ -209,7 +209,7 @@ let gotoPage = (index: number) => {
 
 {#if page === 1}
 
-<h1 class="text-base font-semibold leading-6 text-gray-900">Hi {firstPerson}! Who else is on your team?</h1>
+<h1 class="text-xl font-semibold leading-6 text-gray-900">Hi {firstPerson}! Who else is on your team?</h1>
 <div>
     <div>
         <div class="mt-2">
@@ -251,7 +251,7 @@ let gotoPage = (index: number) => {
 
 {#if page === 2}
 
-<h1 class="text-base font-semibold leading-6 text-gray-900">What achievements are y'all proud of?</h1>
+<h1 class="text-xl font-semibold leading-6 text-gray-900">What achievements are y'all proud of?</h1>
 <div>
     <div>
         <div class="mt-2">
@@ -292,7 +292,9 @@ let gotoPage = (index: number) => {
 
 {#if page === 3}
 
-<h1  class="mb-10 text-base font-semibold leading-6 text-gray-900">For each achievement, which company values were exemplified?</h1>
+<h1  class="mb-4 text-xl font-semibold leading-6 text-gray-900">Celebrate your teammates!</h1>
+
+<p class="mb-10 mt-2 text-sm text-gray-700">For each achievement, which company values were exemplified? And by whom?</p>
 
 {#each achievements as achievement}
 
@@ -302,13 +304,13 @@ let gotoPage = (index: number) => {
             <h1 class="text-base font-semibold leading-6 text-gray-900">{achievement}</h1>
         </div>
     </div>
-    <div class="mt-8 flow-root">
+    <div class="mt-1 flow-root">
         <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                 <table class="min-w-full divide-y divide-gray-300">
                     <thead>
                         <tr>
-                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900"></th>
+                            <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-900">Value</th>
                             {#each people as person}
                             <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">{person}</th>
                             {/each}
@@ -361,7 +363,7 @@ let gotoPage = (index: number) => {
 {/if}
 
 {#if page === 4}
-<h1 class="text-base font-semibold leading-6 text-gray-900">Here you go!</h1>
+<h1 class="text-xl font-semibold leading-6 text-gray-900">Here you go!</h1>
 
 <div class="">
     <div class="sm:flex sm:items-center">
