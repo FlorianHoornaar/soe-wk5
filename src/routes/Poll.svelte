@@ -8,13 +8,13 @@ let doOnEnter = (e: any, f: () => any) => {
     }
 }
 
-let people: string[] = ["Farzal", "Florian", "Mariia"];
-// let people : string[] = [];
+let people : string[] = [];
 
-let firstPerson = "Bob";
-// let firstPerson = "";
+let firstPerson = "";
 let addFirstPerson = () => {
-    if (firstPerson.trim().length > 0) {
+    if (firstPerson === "aaa") {
+        gotoPage(-1);
+    } else if (firstPerson.trim().length > 0) {
         people = [...people, firstPerson.trim()];
 
         page = 1;
@@ -67,8 +67,7 @@ let values: {
 ];
 
 let newAchievement = "";
-let achievements: string[] = ["Build an MVP in only 6 days", "Break even"];
-//let achievements: string[] = [];
+let achievements: string[] = [];
 let addAchievement = () => {
     if (newAchievement.trim().length > 0) {
         achievements = [...achievements, newAchievement.trim()];
@@ -103,7 +102,14 @@ let gotoPage = (index: number, areYouSure = false) => {
 
     showPopup = false;
 
-    if (index === 0) {
+    if (index === -1) {
+        firstPerson = "Bob";
+        people = ["Farzal", "Florian", "Mariia"];
+        achievements = ["Build an MVP in only 6 days", "Break even"];
+        awards = [];
+
+        page = 0;
+    } else if(index === 0) {
         if (areYouSure) {
             firstPerson = ""
             people = [];
@@ -125,7 +131,8 @@ let gotoPage = (index: number, areYouSure = false) => {
     <ol role="list" class="flex items-center space-x-4">
         <li>
             <div>
-                <a href="#" on:click={() => gotoPage(0) } class="text-gray-400 hover:text-gray-500">
+                <a href="#" 
+                    on:click={() => gotoPage(0) } class="text-gray-400 hover:text-gray-500">
                     <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="#3e6fac" aria-hidden="true">
                         <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
                     </svg>
@@ -337,17 +344,17 @@ let gotoPage = (index: number, areYouSure = false) => {
                                 class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">
                                 {#if awards.filter(x => x.person === person && x.achievement === achievement && x.value === value.name).length == 0}
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#5e8fcc" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 013.15 0V15M6.9 7.575a1.575 1.575 0 10-3.15 0v8.175a6.75 6.75 0 006.75 6.75h2.018a5.25 5.25 0 003.712-1.538l1.732-1.732a5.25 5.25 0 001.538-3.712l.003-2.024a.668.668 0 01.198-.471 1.575 1.575 0 10-2.228-2.228 3.818 3.818 0 00-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0116.35 15m.002 0h-.002" />
                                     </svg>
                                 {:else}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="#5e8fcc" viewBox="0 0 24 24" stroke-width="1.5" stroke="#3e6fac" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#3e6fac" class="w-6 h-6">
+                                    <path d="M10.5 1.875a1.125 1.125 0 012.25 0v8.219c.517.162 1.02.382 1.5.659V3.375a1.125 1.125 0 012.25 0v10.937a4.505 4.505 0 00-3.25 2.373 8.963 8.963 0 014-.935A.75.75 0 0018 15v-2.266a3.368 3.368 0 01.988-2.37 1.125 1.125 0 011.591 1.59 1.118 1.118 0 00-.329.79v3.006h-.005a6 6 0 01-1.752 4.007l-1.736 1.736a6 6 0 01-4.242 1.757H10.5a7.5 7.5 0 01-7.5-7.5V6.375a1.125 1.125 0 012.25 0v5.519c.46-.452.965-.832 1.5-1.141V3.375a1.125 1.125 0 012.25 0v6.526c.495-.1.997-.151 1.5-.151V1.875z" />
+                                  </svg>
+                                  
                                 {/if}
                             </td>
                             {/each}
                         </tr>
-
                         {/each}
                     </tbody>
                 </table>
