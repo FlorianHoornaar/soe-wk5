@@ -10,7 +10,9 @@ import {
     Modal,
     ModalBody,
     ModalFooter,
-    ModalHeader
+    ModalHeader,
+    Breadcrumb,
+    BreadcrumbItem
 
 } from 'sveltestrap';
 
@@ -144,76 +146,45 @@ let showPopup = false;
 const togglePopup = () => (showPopup = !showPopup);
 </script>
 
-<!-- <nav class="flex mb-10" aria-label="Breadcrumb">
-    <ol role="list" class="flex items-center space-x-4">
-        <li>
-            <div>
-                <a href="#"
-                    on:click={() => gotoPage(0) } class="text-gray-400 hover:text-gray-500">
-                    <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="#3e6fac" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="sr-only">Home</span>
-                </a>
-            </div>
-        </li>
+<Breadcrumb class="mb-5">
+<BreadcrumbItem>
+<a href="#" on:click={() => gotoPage(0) }>
+    <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="#3e6fac" aria-hidden="true" style="width: 16px; height: 16px;">
+        <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+    </svg>
+    <span class="sr-only">Home</span>
+</a>
+</BreadcrumbItem>
 
-        <li>
-            <div class="flex items-center">
-                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
+<BreadcrumbItem>
+{#if page >= 1}
+<a href="#" on:click={() => gotoPage(1) }>Team</a>
+{:else}
+<span>Team</span>
+{/if}
+</BreadcrumbItem>
 
-                {#if page >= 1}
-                <a href="#" on:click={() => gotoPage(1) } class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Team</a>
-                {:else}
-                <span class="ml-4 text-sm font-medium text-gray-300" aria-current="page">Team</span>
-                {/if}
+<BreadcrumbItem active>{#if page >= 2}
+<a href="#" on:click={() => gotoPage(2) }>Achievements</a>
+{:else}
+<span>Achievements</span>
+{/if}
+</BreadcrumbItem>
 
-            </div>
-        </li>
+<BreadcrumbItem active>{#if page >= 3}
+<a href="#" on:click={() => gotoPage(3) }>Contributors</a>
+{:else}
+<span>Contributors</span>
+{/if}
+</BreadcrumbItem>
 
-        <li>
-            <div class="flex items-center">
-                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
-                {#if page >= 2}
-                <a href="#" on:click={() => gotoPage(2) } class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Achievements</a>
-                {:else}
-                <span class="ml-4 text-sm font-medium text-gray-300" aria-current="page">Achievements</span>
-                {/if}
-
-            </div>
-        </li>
-
-        <li>
-            <div class="flex items-center">
-                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
-                {#if page >= 3}
-                <a href="#" on:click={() => gotoPage(3) } class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Contributors</a>
-                {:else}
-                <span class="ml-4 text-sm font-medium text-gray-300" aria-current="page">Contributors</span>
-                {/if}
-            </div>
-        </li>
-
-        <li>
-            <div class="flex items-center">
-                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
-                {#if page >= 4}
-                <a href="#" on:click={() => gotoPage(4) } class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Report</a>
-                {:else}
-                <span class="ml-4 text-sm font-medium text-gray-300" aria-current="page">Report</span>
-                {/if}
-            </div>
-        </li>
-    </ol>
-</nav> -->
+<BreadcrumbItem active>{#if page >= 4}
+<a href="#" on:click={() => gotoPage(4) }>Report</a>
+{:else}
+<span>Report</span>
+{/if}
+</BreadcrumbItem>
+</Breadcrumb>
 
 {#if page === 0}
 
