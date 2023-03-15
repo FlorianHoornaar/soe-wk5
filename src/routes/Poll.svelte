@@ -344,8 +344,8 @@ let gotoPage = (index: number, areYouSure = false) => {
 
 {/if}
 
-<Modal isOpen={showPopup} {togglePopup}>
-    <ModalHeader {togglePopup}>Are you sure?</ModalHeader>
+<Modal isOpen={showPopup} toggle={togglePopup}>
+    <ModalHeader toggle={togglePopup}>Are you sure?</ModalHeader>
     <ModalBody>
         Starting over again will clear your team, achievements and contributors.
     </ModalBody>
